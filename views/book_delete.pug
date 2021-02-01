@@ -1,0 +1,41 @@
+extends layout
+
+block content
+
+    h1= title
+    p #[strong Genre:]
+        each genre, index in book.genre
+            a(href= genre.url) #{genre.name}
+            if index < book.genre.length - 1
+                | ,
+
+    if bookInstances.length
+   
+     div(style='margin-left:20px;margin-top:20px')
+        h4 Copies: bookInstances must be removed first
+
+        each val in bookInstances
+            hr
+            
+            if val.status=='Available'
+                p.text-success #{val.status}
+            else if val.status=='Maintenance'
+                p.text-danger #{val.status}
+            else
+                p.text-warning #{val.status}
+            p #[strong Imprint:] #{val.imprint}
+            if val.status!='Available'
+                p #[strong Due back:] #{val.due_back}
+            p #[strong Id:]
+                a(href=val.url) #{val._id}     
+
+
+    else 
+
+      p are you sure you want to delete this book?
+
+      form(method='POST' action='')
+        button.btn.btn-primary(type='submit') Delete
+
+
+

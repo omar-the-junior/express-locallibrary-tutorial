@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+    h1= bookInstance.book.title + 'copy'
+    h3 #[Strong Status:] #{bookInstance.status}
+    h4 #[Strong ISBN:] #{bookInstance.book.isbn}
+    h5 #[Strong Due back:] #{bookInstance.due_back_formatted}
+
+    p are you sure you want to delete this copy
+
+    form(method='POST' action='')
+
+        button.btn.btn-primary(type='submit') Delete

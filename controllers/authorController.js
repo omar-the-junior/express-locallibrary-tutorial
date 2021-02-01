@@ -101,7 +101,7 @@ exports.author_delete_get = (req, res, next) => {
                 res.redirect('/catalog/authors');
             }
 
-            res.render('author_delete', { author: results.author, author_books: results.authors_books })
+            res.render('author_delete', { title: 'Delete author', author: results.author, author_books: results.authors_books })
         }
 
     );
@@ -131,7 +131,7 @@ exports.author_delete_post = (req, res, next) => {
                     if (err) { return next(err); }
                     // Success - go to author list
                     res.redirect('/catalog/authors')
-                })
+                });
             }
         }
     )

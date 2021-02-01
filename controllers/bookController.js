@@ -154,13 +154,42 @@ exports.book_create_post = [
 
 ]
 
-exports.book_delete_get = function (req, res) {
-    res.send('NOT IMPLEMENTED: Book delete GET');
+exports.book_delete_get = (req, res, next) => {
+
+    async.parallel(
+        {
+            book: callback => {
+                Book.findById(req.params.id)
+                    .populate('genre')
+                    .exec(callback);
+            },
+
+            bookInstances: callback => {
+                BookInstance.find({ 'book': req.params.id })
+                    .exec(callback);
+            }
+        },
+
+        (err, results) => {
+            if (err) { next(err) }
+
+            if (results.book == null) {
+                res.redirect('/catalog/books');
+            }
+
+            res.render('book_delete', { title: `Delete the book: ${results.book.title}`, book: results.book, bookInstances: results.bookInstances })
+        }
+
+    )
+
 };
 
-exports.book_delete_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: Book delete POST');
-};
+exports.book_delete_post = (req, res, next) => {
+    Book.findByIdAndDelete(req.params.id, function deleteBook(err) {
+        if (err) { return next(err); }
+        res.redirect('/catalog/books');
+    });
+}
 
 exports.book_update_get = function (req, res, next) {
     async.parallel({
