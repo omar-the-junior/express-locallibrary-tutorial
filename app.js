@@ -19,7 +19,9 @@ var app = express();
 var mongoose = require('mongoose');
 
 
-var mongoDB = 'mongodb+srv://omar:WoG4h1GrfKlsSGHT@cluster0.uqdgh.gcp.mongodb.net/local-library?retryWrites=true&w=majority';
+var dev_db_url = 'mongodb+srv://omar:WoG4h1GrfKlsSGHT@cluster0.uqdgh.gcp.mongodb.net/local-library?retryWrites=true&w=majority';
+
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
